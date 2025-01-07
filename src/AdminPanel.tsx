@@ -15,7 +15,7 @@ export default function AdminPanel() {
     const [pathForm, setPathForm] = useState<LearningPath | null>(null);
     const [lessonForm, setLessonForm] = useState<Lesson | null>(null);
 
-    const baseUrl = 'http://localhost:5001/api';
+    const baseUrl = 'https://edu-tec-x-sign-backend.vercel.app/api';
 
     // Get token from localStorage
     const token = localStorage.getItem('adminToken'); // Adjust as needed for your token storage

@@ -11,7 +11,7 @@ export default function AdminLogin() {
     const handleLogin = async () => {
         try {
             const response = await axios.post(
-                'http://localhost:5001/api/auth/login',
+                'https://edu-tec-x-sign-backend.vercel.app/api/auth/login',
                 {
                     username,
                     password,

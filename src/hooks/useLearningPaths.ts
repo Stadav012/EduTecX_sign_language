@@ -11,7 +11,7 @@ export const useLearningPaths = () => {
         const fetchLearningPaths = async () => {
             try {
                 const response = await axios.get(
-                    'http://localhost:5001/api/paths'
+                    'https://edu-tec-x-sign-backend.vercel.app/api/paths'
                 );
                 console.log('API Response:', response.data);
                 setPaths(response.data);

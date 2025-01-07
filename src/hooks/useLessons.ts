@@ -13,7 +13,7 @@ export const useLessons = (pathId: string) => {
         const fetchLessons = async () => {
             try {
                 const response = await axios.get(
-                    `http://localhost:5001/api/lessons/${pathId}`
+                    `https://edu-tec-x-sign-backend.vercel.app/api/lessons/${pathId}`
                 );
                 setLessons(response.data);
                 setLoading(false);
