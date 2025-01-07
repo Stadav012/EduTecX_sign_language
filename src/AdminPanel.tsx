@@ -364,6 +364,80 @@ export default function AdminPanel() {
                             )
                         }
                     />
+                    <Input
+                        label='Topic'
+                        value={lessonForm?.topic ?? ''}
+                        onChange={(e) =>
+                            setLessonForm(
+                                (prev) =>
+                                    ({
+                                        ...prev,
+                                        topic: e.target.value,
+                                    } as Lesson)
+                            )
+                        }
+                    />
+                    <Input
+                        label='Duration (minutes)'
+                        type='number'
+                        value={lessonForm?.duration ?? ''}
+                        onChange={(e) =>
+                            setLessonForm(
+                                (prev) =>
+                                    ({
+                                        ...prev,
+                                        duration: Number(e.target.value),
+                                    } as Lesson)
+                            )
+                        }
+                    />
+                    <Input
+                        label='YouTube ID'
+                        value={lessonForm?.youtubeId ?? ''}
+                        onChange={(e) =>
+                            setLessonForm(
+                                (prev) =>
+                                    ({
+                                        ...prev,
+                                        youtubeId: e.target.value,
+                                    } as Lesson)
+                            )
+                        }
+                    />
+                    <Input
+                        label='Quiz Link'
+                        value={lessonForm?.quizLink ?? ''}
+                        onChange={(e) =>
+                            setLessonForm(
+                                (prev) =>
+                                    ({
+                                        ...prev,
+                                        quizLink: e.target.value,
+                                    } as Lesson)
+                            )
+                        }
+                    />
+                    {/* Set the pathId to the selectedPath's _id */}
+                    <Input
+                        label='Path ID'
+                        value={lessonForm?.pathId ?? selectedPath?._id}
+                        readOnly // Optional, prevent user from editing pathId
+                    />
+                    {/* Calculate order based on existing lessons */}
+                    <Input
+                        label='Order'
+                        type='number'
+                        value={lessonForm?.order ?? lessons.length + 1} // Set default order to the next available index
+                        onChange={(e) =>
+                            setLessonForm(
+                                (prev) =>
+                                    ({
+                                        ...prev,
+                                        order: Number(e.target.value),
+                                    } as Lesson)
+                            )
+                        }
+                    />
                     <Button onClick={handleSaveLesson}>Save</Button>
                 </Modal>
             )}
