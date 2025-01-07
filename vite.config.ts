@@ -4,7 +4,7 @@ import path from 'path';
 
 export default defineConfig({
     plugins: [react()],
-    base: './',
+    base: '/', // Use root-relative paths for production
     optimizeDeps: {
         exclude: ['lucide-react'],
     },
