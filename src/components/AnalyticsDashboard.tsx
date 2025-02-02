@@ -4,46 +4,75 @@ import { Chart } from 'react-google-charts';
 export function AnalyticsDashboard() {
   const [analyticsData, setAnalyticsData] = useState({
     pageViews: [
-      ['Date', 'Views'],
-      ['Today', 0],
-      ['Yesterday', 0],
+      ['Date', 'Page Views', 'Unique Views'],
+      ['Today', 0, 0],
+      ['Yesterday', 0, 0],
+      ['2 days ago', 0, 0],
     ],
-    userMetrics: {
-      totalUsers: 0,
-      activeUsers: 0,
-      newUsers: 0,
-    },
+    interactions: [
+      ['Event Type', 'Count'],
+      ['Page Views', 0],
+      ['Scrolls', 0],
+      ['Outbound Clicks', 0],
+      ['Form Interactions', 0],
+      ['Video Plays', 0],
+      ['File Downloads', 0],
+    ],
     pathEngagement: [
-      ['Path', 'Completion Rate', 'Average Time'],
-      ['Basic Signs', 0, 0],
-      ['Advanced Signs', 0, 0],
+      ['Learning Path', 'Completion %', 'Avg. Time (min)', 'Form Interactions'],
+      ['Basic Signs', 0, 0, 0],
+      ['Advanced Signs', 0, 0, 0],
     ],
+    searchAnalytics: [
+      ['Search Term', 'Count'],
+      ['sign language', 0],
+      ['basic signs', 0],
+      ['learn signing', 0],
+    ]
   });
 
   return (
-    <div className="space-y-8">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* User Overview Card */}
-        <div className="p-6 bg-white rounded-lg shadow-md">
-          <h3 className="text-lg font-semibold mb-4">User Overview</h3>
-          <div className="space-y-2">
-            <p>Total Users: {analyticsData.userMetrics.totalUsers}</p>
-            <p>Active Users: {analyticsData.userMetrics.activeUsers}</p>
-            <p>New Users: {analyticsData.userMetrics.newUsers}</p>
-          </div>
+    <div className="space-y-8 p-6">
+      {/* Page Views Section */}
+      <div className="bg-white rounded-lg shadow-md p-6">
+        <h3 className="text-lg font-semibold mb-4">Page Views & Navigation</h3>
+        <Chart
+          chartType="LineChart"
+          data={analyticsData.pageViews}
+          options={{
+            title: 'Page Views Trend',
+            curveType: 'function',
+            legend: { position: 'bottom' },
+          }}
+          width="100%"
+          height="300px"
+        />
+      </div>
+
+      {/* User Interactions */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h3 className="text-lg font-semibold mb-4">User Interactions</h3>
+          <Chart
+            chartType="PieChart"
+            data={analyticsData.interactions}
+            options={{
+              title: 'Event Distribution',
+              pieHole: 0.4,
+            }}
+            width="100%"
+            height="300px"
+          />
         </div>
 
-        {/* Page Views Chart */}
-        <div className="col-span-2 p-6 bg-white rounded-lg shadow-md">
-          <h3 className="text-lg font-semibold mb-4">Page Views</h3>
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h3 className="text-lg font-semibold mb-4">Search Terms</h3>
           <Chart
-            chartType="LineChart"
-            data={analyticsData.pageViews}
+            chartType="BarChart"
+            data={analyticsData.searchAnalytics}
             options={{
-              curveType: 'function',
+              title: 'Popular Search Terms',
               legend: { position: 'none' },
-              hAxis: { title: 'Date' },
-              vAxis: { title: 'Views' },
             }}
             width="100%"
             height="300px"
@@ -52,15 +81,16 @@ export function AnalyticsDashboard() {
       </div>
 
       {/* Learning Path Engagement */}
-      <div className="p-6 bg-white rounded-lg shadow-md">
-        <h3 className="text-lg font-semibold mb-4">Learning Path Engagement</h3>
+      <div className="bg-white rounded-lg shadow-md p-6">
+        <h3 className="text-lg font-semibold mb-4">Learning Path Performance</h3>
         <Chart
           chartType="BarChart"
           data={analyticsData.pathEngagement}
           options={{
+            title: 'Learning Path Metrics',
             isStacked: false,
             legend: { position: 'top' },
-            hAxis: { title: 'Completion Rate & Time' },
+            hAxis: { title: 'Metrics' },
             vAxis: { title: 'Learning Path' },
           }}
           width="100%"

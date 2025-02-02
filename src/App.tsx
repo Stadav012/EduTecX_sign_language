@@ -13,6 +13,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { AnimatedBackground } from './components/AnimatedBackground';
 import { useEffect } from 'react';
 import { initializeGA } from './utils/analytics';
+import { usePageTracking } from './hooks/usePageTracking';
 
 export default function App() {
     const [selectedPath, setSelectedPath] = useState<LearningPath | null>(null);
