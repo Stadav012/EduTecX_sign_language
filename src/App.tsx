@@ -14,6 +14,7 @@ import { AnimatedBackground } from './components/AnimatedBackground';
 import { useEffect } from 'react';
 import { initializeGA } from './utils/analytics';
 import { usePageTracking } from './hooks/usePageTracking';
+import { Analytics } from '@vercel/analytics/react';
 
 export default function App() {
     const [selectedPath, setSelectedPath] = useState<LearningPath | null>(null);
@@ -261,6 +262,7 @@ export default function App() {
                     </AnimatePresence>
                 </div>
             </main>
+            <Analytics />
         </div>
     );
 }
