@@ -10,6 +10,7 @@ import { Button } from './components/ui/button';
 import { useLearningPaths } from './hooks/useLearningPaths';
 import { useLessons } from './hooks/useLessons';
 import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatedBackground } from './components/AnimatedBackground';
 
 export default function App() {
     const [selectedPath, setSelectedPath] = useState<LearningPath | null>(null);
@@ -54,8 +55,10 @@ export default function App() {
     if (pathsError) return <ErrorMessage message={pathsError} />;
 
     return (
-        <div className='min-h-screen bg-gray-50'>
-            <header className='bg-white border-b'>
+        <div className="min-h-screen relative">
+            <AnimatedBackground />
+            
+            <header className='bg-white/80 backdrop-blur-sm border-b sticky top-0 z-50'>
                 <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between'>
                     <h1 className='text-5xl font-bold text-gray-900'>EduTecX</h1>
                     {selectedPath && (
@@ -71,13 +74,12 @@ export default function App() {
                             className='flex items-center space-x-2 text-gray-600 hover:text-gray-900'
                         >
                             <ChevronLeft className='w-4 h-4' />
-                            <span>
-                                {selectedVideo ? 'Back to Lessons' : 'Back to Learning Paths'}
-                            </span>
+                            <span>Back to Learning Paths</span>
                         </Button>
                     )}
                 </div>
             </header>
+
             <main className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
                 <motion.div 
                     className='min-h-screen w-full dark:bg-black bg-white dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative px-4 py-8'
@@ -94,17 +96,35 @@ export default function App() {
                                 exit={{ opacity: 0, y: -20 }}
                                 transition={{ duration: 0.5 }}
                             >
-                                <div className='text-center max-w-2xl mx-auto mb-12'>
-                                    <motion.h2 
-                                        className='text-4xl sm:text-7xl font-bold relative z-20 bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-500 py-8'
-                                        initial={{ scale: 0.9 }}
-                                        animate={{ scale: 1 }}
-                                        transition={{ duration: 0.5 }}
+                                <div className='text-center max-w-3xl mx-auto mb-16'>
+                                    <motion.div
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        transition={{ duration: 1 }}
+                                        className="relative"
                                     >
-                                        Choose Your Learning Path
-                                    </motion.h2>
+                                        <motion.div
+                                            className="absolute -inset-x-20 top-0 bg-gradient-to-r from-transparent via-primary/20 to-transparent h-[120%] w-[120%] blur-3xl opacity-50"
+                                            animate={{
+                                                x: ['-100%', '100%'],
+                                            }}
+                                            transition={{
+                                                repeat: Infinity,
+                                                duration: 8,
+                                                ease: "linear",
+                                            }}
+                                        />
+                                        <motion.h2 
+                                            className='text-4xl sm:text-7xl font-bold relative z-20 bg-clip-text text-transparent bg-gradient-to-b from-neutral-800 to-neutral-500 py-8'
+                                            initial={{ scale: 0.9 }}
+                                            animate={{ scale: 1 }}
+                                            transition={{ duration: 0.5 }}
+                                        >
+                                            Choose Your Learning Path
+                                        </motion.h2>
+                                    </motion.div>
                                     <motion.p 
-                                        className='text-lg text-gray-600'
+                                        className='text-lg text-gray-600 mt-4'
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
                                         transition={{ delay: 0.2 }}
@@ -113,7 +133,7 @@ export default function App() {
                                     </motion.p>
                                 </div>
                                 <motion.div 
-                                    className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 place-items-center max-w-4xl mx-auto'
+                                    className='grid grid-cols-1 md:grid-cols-2 gap-8 max-w-[720px] mx-auto px-4'
                                     variants={{
                                         hidden: { opacity: 0 },
                                         show: {
@@ -133,6 +153,7 @@ export default function App() {
                                                 hidden: { opacity: 0, y: 20 },
                                                 show: { opacity: 1, y: 0 }
                                             }}
+                                            className="flex justify-center"
                                         >
                                             <SubjectCard
                                                 subject={path}
@@ -204,15 +225,36 @@ export default function App() {
                                         ) : lessonsError ? (
                                             <ErrorMessage message={lessonsError} />
                                         ) : (
-                                            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-start'>
-                                                {lessons.map((lesson) => (
-                                                    <VideoCard
+                                            <motion.div 
+                                                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8"
+                                                variants={{
+                                                    hidden: { opacity: 0 },
+                                                    show: {
+                                                        opacity: 1,
+                                                        transition: {
+                                                            staggerChildren: 0.1
+                                                        }
+                                                    }
+                                                }}
+                                                initial="hidden"
+                                                animate="show"
+                                            >
+                                                {sortedLessons.map((lesson) => (
+                                                    <motion.div
                                                         key={lesson.id}
-                                                        video={lesson}
-                                                        onSelect={setSelectedVideo}
-                                                    />
+                                                        variants={{
+                                                            hidden: { opacity: 0, y: 20 },
+                                                            show: { opacity: 1, y: 0 }
+                                                        }}
+                                                        className="flex justify-center"
+                                                    >
+                                                        <VideoCard
+                                                            video={lesson}
+                                                            onSelect={(video) => setSelectedVideo(video)}
+                                                        />
+                                                    </motion.div>
                                                 ))}
-                                            </div>
+                                            </motion.div>
                                         )}
                                     </div>
                                 )}

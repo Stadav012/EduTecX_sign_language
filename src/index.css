@@ -39,3 +39,21 @@
 .glass-card {
   @apply bg-white/90 backdrop-blur-sm border border-gray-100 shadow-lg;
 }
+/* Add these animations to your existing CSS */
+@keyframes glow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.8; }
+}
+
+.animate-glow {
+  animation: glow 4s ease-in-out infinite;
+}
+
+.bg-dot-black\[0\.2\] {
+  transition: background-size 0.3s ease;
+}
+
+/* Add this if you want the dots to glow on hover */
+.bg-dot-black\[0\.2\]:hover {
+  background-size: 20px 20px;
+}
