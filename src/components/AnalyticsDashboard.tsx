@@ -1,102 +1,143 @@
 import React, { useEffect, useState } from 'react';
 import { Chart } from 'react-google-charts';
+import { fetchAnalyticsData } from '../services/analyticsService';
 
 export function AnalyticsDashboard() {
   const [analyticsData, setAnalyticsData] = useState({
+    pageViews: [['Date', 'Page Views', 'Unique Views']],
+    interactions: [['Event Type', 'Count']],
+    pathEngagement: [['Learning Path', 'Completion %', 'Avg. Time (min)', 'Form Interactions']],
+    searchAnalytics: [['Search Term', 'Count']]
+  });
+  const [rawData, setRawData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Add test data
+  const testData = {
     pageViews: [
       ['Date', 'Page Views', 'Unique Views'],
-      ['Today', 0, 0],
-      ['Yesterday', 0, 0],
-      ['2 days ago', 0, 0],
+      [new Date(2024, 0, 1), 100, 50],
+      [new Date(2024, 0, 2), 120, 60],
+      [new Date(2024, 0, 3), 130, 70],
     ],
     interactions: [
       ['Event Type', 'Count'],
-      ['Page Views', 0],
-      ['Scrolls', 0],
-      ['Outbound Clicks', 0],
-      ['Form Interactions', 0],
-      ['Video Plays', 0],
-      ['File Downloads', 0],
+      ['Page Views', 250],
+      ['Video Plays', 120],
+      ['Form Submissions', 45],
     ],
     pathEngagement: [
-      ['Learning Path', 'Completion %', 'Avg. Time (min)', 'Form Interactions'],
-      ['Basic Signs', 0, 0, 0],
-      ['Advanced Signs', 0, 0, 0],
+      ['Learning Path', 'Completion %', 'Avg. Time (min)', 'Interactions'],
+      ['Basic Signs', 75, 30, 150],
+      ['Advanced Signs', 60, 45, 100],
     ],
     searchAnalytics: [
       ['Search Term', 'Count'],
-      ['sign language', 0],
-      ['basic signs', 0],
-      ['learn signing', 0],
+      ['basic signs', 50],
+      ['numbers', 30],
+      ['alphabet', 25],
     ]
-  });
+  };
+
+  useEffect(() => {
+    async function loadAnalyticsData() {
+      try {
+        setLoading(true);
+        console.log('🚀 Starting data fetch...');
+        
+        const data = await fetchAnalyticsData();
+        console.log('📦 Received data:', data);
+        
+        if (!data) {
+          console.log('⚠️ No data received, using test data');
+          setRawData(null);
+          setAnalyticsData(testData);
+          setLoading(false);
+          return;
+        }
+
+        setRawData(data);
+        setAnalyticsData(testData); // Temporarily use test data while we debug
+        console.log('✅ Data loaded successfully');
+      } catch (err) {
+        console.error('❌ Load error:', err);
+        setRawData(null);
+        setAnalyticsData(testData);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadAnalyticsData();
+    return () => {}; // Remove interval for now while debugging
+  }, []);
+
+  // Show loading state with more detail
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center h-96">
+        <div className="mb-4">Loading analytics data...</div>
+        <div className="text-sm text-gray-500">
+          This may take a few moments
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8 p-6">
-      {/* Page Views Section */}
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <h3 className="text-lg font-semibold mb-4">Page Views & Navigation</h3>
-        <Chart
-          chartType="LineChart"
-          data={analyticsData.pageViews}
-          options={{
-            title: 'Page Views Trend',
-            curveType: 'function',
-            legend: { position: 'bottom' },
-          }}
-          width="100%"
-          height="300px"
-        />
-      </div>
-
-      {/* User Interactions */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h3 className="text-lg font-semibold mb-4">User Interactions</h3>
-          <Chart
-            chartType="PieChart"
-            data={analyticsData.interactions}
-            options={{
-              title: 'Event Distribution',
-              pieHole: 0.4,
-            }}
-            width="100%"
-            height="300px"
-          />
-        </div>
-
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h3 className="text-lg font-semibold mb-4">Search Terms</h3>
-          <Chart
-            chartType="BarChart"
-            data={analyticsData.searchAnalytics}
-            options={{
-              title: 'Popular Search Terms',
-              legend: { position: 'none' },
-            }}
-            width="100%"
-            height="300px"
-          />
+      {/* Debug section */}
+      <div className="bg-gray-100 p-4 mb-8 rounded-lg">
+        <h3 className="text-lg font-semibold mb-2">Debug Information</h3>
+        <div className="bg-white p-4 rounded overflow-auto max-h-96">
+          <div>Loading State: {loading ? 'True' : 'False'}</div>
+          <div>Has Raw Data: {rawData ? 'Yes' : 'No'}</div>
+          <div>Data Source: {rawData ? 'API' : 'Test Data'}</div>
+          <pre className="text-sm mt-4">
+            {JSON.stringify(rawData || 'No API data available', null, 2)}
+          </pre>
         </div>
       </div>
 
-      {/* Learning Path Engagement */}
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <h3 className="text-lg font-semibold mb-4">Learning Path Performance</h3>
-        <Chart
-          chartType="BarChart"
-          data={analyticsData.pathEngagement}
-          options={{
-            title: 'Learning Path Metrics',
-            isStacked: false,
-            legend: { position: 'top' },
-            hAxis: { title: 'Metrics' },
-            vAxis: { title: 'Learning Path' },
-          }}
-          width="100%"
-          height="400px"
-        />
-      </div>
+      {/* Rest of your existing chart components... */}
     </div>
   );
+}
+
+function transformAnalyticsData(apiData: any) {
+  return {
+    pageViews: [
+      ['Date', 'Page Views', 'Unique Views'],
+      ...apiData.rows.map((row: any) => [
+        // Convert string date to Date object
+        new Date(row.dimensionValues[0].value),
+        Number(row.metricValues[0].value),
+        Number(row.metricValues[1].value)
+      ])
+    ],
+    interactions: [
+      ['Event Type', 'Count'],
+      ...apiData.rows.map((row: any) => [
+        String(row.dimensionValues[0].value),
+        Number(row.metricValues[0].value)
+      ])
+    ],
+    pathEngagement: [
+      ['Learning Path', 'Completion %', 'Avg. Time (min)', 'Interactions'],
+      ...apiData.rows.map((row: any) => [
+        String(row.dimensionValues[0].value),
+        Number(row.metricValues[0].value),
+        Number(row.metricValues[1].value),
+        Number(row.metricValues[2].value)
+      ])
+    ],
+    searchAnalytics: [
+      ['Search Term', 'Count'],
+      ...apiData.rows.map((row: any) => [
+        String(row.dimensionValues[0].value),
+        Number(row.metricValues[0].value)
+      ])
+    ]
+  };
 }

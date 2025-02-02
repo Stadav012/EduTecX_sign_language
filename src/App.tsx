@@ -12,7 +12,7 @@ import { useLessons } from './hooks/useLessons';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AnimatedBackground } from './components/AnimatedBackground';
 import { useEffect } from 'react';
-import { initializeGA } from './utils/analytics';
+import { initializeAnalytics } from './services/analyticsService';
 import { usePageTracking } from './hooks/usePageTracking';
 import { Analytics } from '@vercel/analytics/react';
 
