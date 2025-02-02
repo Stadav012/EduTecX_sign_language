@@ -11,6 +11,8 @@ import { useLearningPaths } from './hooks/useLearningPaths';
 import { useLessons } from './hooks/useLessons';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AnimatedBackground } from './components/AnimatedBackground';
+import { useEffect } from 'react';
+import { initializeGA } from './utils/analytics';
 
 export default function App() {
     const [selectedPath, setSelectedPath] = useState<LearningPath | null>(null);
