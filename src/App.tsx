@@ -55,10 +55,10 @@ export default function App() {
     if (pathsError) return <ErrorMessage message={pathsError} />;
 
     return (
-        <div className="min-h-screen relative">
+        <div className="min-h-screen relative overflow-hidden">
             <AnimatedBackground />
             
-            <header className='bg-white/80 backdrop-blur-sm border-b sticky top-0 z-50'>
+            <header className='bg-white/80 backdrop-blur-sm border-b sticky top-0 z-[100]'>
                 <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between'>
                     <h1 className='text-5xl font-bold text-gray-900'>EduTecX</h1>
                     {selectedPath && (
@@ -80,13 +80,8 @@ export default function App() {
                 </div>
             </header>
 
-            <main className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
-                <motion.div 
-                    className='min-h-screen w-full dark:bg-black bg-white dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative px-4 py-8'
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.5 }}
-                >
+            <main className='relative z-10'>
+                <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
                     <AnimatePresence mode="wait">
                         {!selectedPath ? (
                             <motion.div 
@@ -164,7 +159,7 @@ export default function App() {
                                 </motion.div>
                             </motion.div>
                         ) : (
-                            <div className='space-y-8'>
+                            <div className='space-y-8 relative z-10'>
                                 {selectedVideo ? (
                                     <div className='max-w-4xl mx-auto space-y-6'>
                                         <div className='flex items-center justify-between mb-4'>
@@ -261,7 +256,7 @@ export default function App() {
                             </div>
                         )}
                     </AnimatePresence>
-                </motion.div>
+                </div>
             </main>
         </div>
     );
