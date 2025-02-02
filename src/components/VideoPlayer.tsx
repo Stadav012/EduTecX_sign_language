@@ -1,16 +1,16 @@
 import React from 'react';
 import { Card, CardContent } from './ui/card';
-import { Video } from '../types';
+import { Lesson } from '../types';
 
 interface VideoPlayerProps {
-  video: Video;
+  video: Lesson;
 }
 
 export function VideoPlayer({ video }: VideoPlayerProps) {
   return (
     <Card className="overflow-hidden">
       <CardContent className="p-0">
-        <div className="aspect-w-16">
+        <div className="aspect-video">
           <iframe
             src={`https://www.youtube.com/embed/${video.youtubeId}`}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
