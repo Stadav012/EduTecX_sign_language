@@ -239,8 +239,60 @@ export default function AdminPanel() {
                         </div>
                     ) : (
                         // Lessons section
+                        // ... commented out lessons section with:
                         <section className='mt-8'>
-                            {/* ... lessons section remains the same ... */}
+                            <div className="flex justify-between items-center mb-6">
+                                <div>
+                                    <Button onClick={() => setSelectedPath(null)} className="mb-4">
+                                        ← Back to Learning Paths
+                                    </Button>
+                                    <h2 className="text-2xl font-bold">{selectedPath.title} - Lessons</h2>
+                                </div>
+                                <Button
+                                    onClick={() => {
+                                        setLessonForm({
+                                            pathId: selectedPath._id,
+                                            order: lessons.length + 1
+                                        } as Lesson);
+                                        setShowLessonModal(true);
+                                    }}
+                                >
+                                    Add Lesson
+                                </Button>
+                            </div>
+                        
+                            <div className="space-y-4">
+                                {lessons.map((lesson) => (
+                                    <div
+                                        key={lesson._id}
+                                        className="bg-white shadow p-6 rounded-lg"
+                                    >
+                                        <h3 className="text-xl font-bold mb-2">{lesson.title}</h3>
+                                        <p className="text-gray-600 mb-2">{lesson.description}</p>
+                                        <div className="text-sm text-gray-500 mb-4">
+                                            <p>Topic: {lesson.topic}</p>
+                                            <p>Duration: {lesson.duration} minutes</p>
+                                            <p>Order: {lesson.order}</p>
+                                        </div>
+                                        <div className="flex items-center space-x-2">
+                                            <Button
+                                                onClick={() => {
+                                                    setLessonForm(lesson);
+                                                    setShowLessonModal(true);
+                                                }}
+                                            >
+                                                Edit
+                                            </Button>
+                                            <Button
+                                                variant="destructive"
+                                                onClick={() => handleDeleteLesson(lesson._id)}
+                                            >
+                                                Delete
+                                            </Button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
                         </section>
                     )}
                 </div>

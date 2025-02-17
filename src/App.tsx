@@ -15,6 +15,8 @@ import { useEffect } from 'react';
 import { initializeAnalytics } from './services/analyticsService';
 import { usePageTracking } from './hooks/usePageTracking';
 import { Analytics } from '@vercel/analytics/react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { LessonManagement } from './components/LessonManagement';
 
 export default function App() {
     const [selectedPath, setSelectedPath] = useState<LearningPath | null>(null);
