@@ -416,20 +416,39 @@ export default function AdminPanel() {
                             )
                         }
                     />
-                    <Input
-                        label='Quiz Link'
-                        value={lessonForm?.quizLink ?? ''}
-                        onChange={(e) =>
-                            setLessonForm(
-                                (prev) =>
-                                    ({
-                                        ...prev,
-                                        quizLink: e.target.value,
-                                    } as Lesson)
-                            )
-                        }
+                    <Textarea
+                      label='Baseline Quiz Embed Code'
+                      value={lessonForm?.baselineQuiz ?? ''}
+                      onChange={(e) =>
+                        setLessonForm(
+                          (prev) =>
+                            ({
+                              ...prev,
+                              baselineQuiz: e.target.value,
+                            } as Lesson)
+                        )
+                      }
+                      placeholder="Paste ClassMarker embed code here"
+                      className="min-h-[100px] font-mono text-sm"
                     />
-                    {/* Set the pathId to the selectedPath's _id */}
+                    
+                    {/* Single Final Quiz field */}
+                    <Textarea
+                      label='Final Quiz Embed Code'
+                      value={lessonForm?.quizLink ?? ''}
+                      onChange={(e) =>
+                        setLessonForm(
+                          (prev) =>
+                            ({
+                              ...prev,
+                              quizLink: e.target.value,
+                            } as Lesson)
+                        )
+                      }
+                      placeholder="Paste ClassMarker embed code here"
+                      className="min-h-[100px] font-mono text-sm"
+                    />
+
                     <Input
                         label='Path ID'
                         value={lessonForm?.pathId ?? selectedPath?._id}

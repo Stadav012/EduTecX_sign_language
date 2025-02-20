@@ -199,6 +199,7 @@ export default function App() {
                                                 {selectedVideo.title}
                                             </h2>
                                             <p className='text-gray-600'>{selectedVideo.description}</p>
+                                            {/* Remove this button block
                                             <Button asChild className='bg-primary hover:bg-primary/90'>
                                                 <a
                                                     href={selectedVideo.quizLink}
@@ -209,6 +210,7 @@ export default function App() {
                                                     Take Assessment Quiz
                                                 </a>
                                             </Button>
+                                            */}
                                         </div>
                                     </div>
                                 ) : (
@@ -227,7 +229,7 @@ export default function App() {
                                             <ErrorMessage message={lessonsError} />
                                         ) : (
                                             <motion.div 
-                                                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8"
+                                                className="grid auto-rows-[440px] grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 relative"
                                                 variants={{
                                                     hidden: { opacity: 0 },
                                                     show: {
@@ -247,7 +249,9 @@ export default function App() {
                                                             hidden: { opacity: 0, y: 20 },
                                                             show: { opacity: 1, y: 0 }
                                                         }}
-                                                        className="flex justify-center"
+                                                        className={`flex justify-center w-full ${
+                                                            lesson.showingQuiz ? 'col-span-full row-span-2' : ''
+                                                        }`}
                                                     >
                                                         <VideoCard
                                                             video={lesson}

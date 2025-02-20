@@ -16,6 +16,7 @@ export interface Lesson {
   duration: number;
   quizLink: string;
   order: number;
+  baselineQuiz: string; // Add this field
 }
 
 export interface ApiResponse<T> {
