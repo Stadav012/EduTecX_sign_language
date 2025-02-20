@@ -88,24 +88,24 @@ export function VideoCard({ video, onSelect }: VideoCardProps) {
         className="relative z-0"
       >
         <Card className={`overflow-hidden transition-all duration-300 relative bg-white/50 backdrop-blur-sm border border-gray-200/50 ${
-          showBaselineQuiz ? 'h-[650px]' : 'h-[440px]'
+          showBaselineQuiz ? 'h-[90vh] md:h-[650px]' : 'h-[440px]'
         }`}>
           {showBaselineQuiz ? (
             <div className="flex flex-col h-full">
-              <CardHeader className="pb-2">
+              <CardHeader className="pb-2 flex-shrink-0">
                 <CardTitle className="text-xl font-bold">Baseline Quiz</CardTitle>
                 <CardDescription>
                   Please complete this quiz before starting the lesson
                 </CardDescription>
               </CardHeader>
-              <CardContent className="flex-1 p-0 overflow-auto">
+              <CardContent className="flex-1 p-0 overflow-y-auto -mx-2 px-2">
                 <div 
                   ref={quizContainerRef}
                   className="quiz-container w-full min-h-full"
                 />
               </CardContent>
               {quizCompleted && (
-                <div className="sticky bottom-0 w-full p-4 bg-white border-t">
+                <div className="sticky bottom-0 w-full p-4 bg-white border-t flex-shrink-0">
                   <Button 
                     onClick={handleQuizComplete}
                     className="w-full bg-primary hover:bg-primary/90"
